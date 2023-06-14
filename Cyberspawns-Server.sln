@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyberspawnsServer.App", "Cyberspawns-Server\CyberspawnsServer.App.csproj", "{D5628229-7E55-495F-80D0-D33BF0F21309}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyberspawnsServer", "CyberspawnsServer\CyberspawnsServer.csproj", "{14E95A64-4477-4BB3-AD48-3BB80E29216C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyberspawnsServer.Chat", "CyberspawnsServer.Chat\CyberspawnsServer.Chat.csproj", "{95AE2067-F386-4A78-878C-C4A24164C5A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyberspawnsServer.Playfab", "CyberspawnsServer.Playfab\CyberspawnsServer.Playfab.csproj", "{14A3838E-A71D-4C34-805C-02A4BB03AE06}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyberspawnsServer.DataAccess", "CyberspawnsServer.DataAccess\CyberspawnsServer.DataAccess.csproj", "{30ABC414-A867-4D5C-BAEF-6A546D680A25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyberspawnsServer.Core", "CyberspawnsServer.Core\CyberspawnsServer.Core.csproj", "{0E1367AE-9563-46CC-B525-7DF708DE1C29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5628229-7E55-495F-80D0-D33BF0F21309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5628229-7E55-495F-80D0-D33BF0F21309}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5628229-7E55-495F-80D0-D33BF0F21309}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5628229-7E55-495F-80D0-D33BF0F21309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14E95A64-4477-4BB3-AD48-3BB80E29216C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14E95A64-4477-4BB3-AD48-3BB80E29216C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14E95A64-4477-4BB3-AD48-3BB80E29216C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14E95A64-4477-4BB3-AD48-3BB80E29216C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95AE2067-F386-4A78-878C-C4A24164C5A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95AE2067-F386-4A78-878C-C4A24164C5A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95AE2067-F386-4A78-878C-C4A24164C5A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95AE2067-F386-4A78-878C-C4A24164C5A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A3838E-A71D-4C34-805C-02A4BB03AE06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A3838E-A71D-4C34-805C-02A4BB03AE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A3838E-A71D-4C34-805C-02A4BB03AE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A3838E-A71D-4C34-805C-02A4BB03AE06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30ABC414-A867-4D5C-BAEF-6A546D680A25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30ABC414-A867-4D5C-BAEF-6A546D680A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30ABC414-A867-4D5C-BAEF-6A546D680A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30ABC414-A867-4D5C-BAEF-6A546D680A25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E1367AE-9563-46CC-B525-7DF708DE1C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E1367AE-9563-46CC-B525-7DF708DE1C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E1367AE-9563-46CC-B525-7DF708DE1C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E1367AE-9563-46CC-B525-7DF708DE1C29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97CCF03E-46DA-4127-B195-E8B4E6D6CF6B}
+	EndGlobalSection
+EndGlobal

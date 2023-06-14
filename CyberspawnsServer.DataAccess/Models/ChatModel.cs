@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CyberspawnsServer.DataAccess.Models
 {
-    public class Chat: BaseDbModel
+    public class ChatModel: BaseDbModel
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public string message { get; set; }
+        public string Message { get; set; }
         public Guid ChatRoomId { get; set; }
     }
 }

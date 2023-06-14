@@ -5,30 +5,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
 
 namespace CyberspawnsServer.Chat
 {
-    public class Chat : BaseRepository<Chat>
+    public class Chat : BaseRepository<ChatModel>
     {
         public Chat(string connetionstring, Log log) : base(connetionstring, log)
         {
 
         }
 
-        public async Task<Chat> StoreChat(Chat chat)
+        public async Task<int> StoreChat(ChatModel chat)
         {
-            return 
+            var queryString = $"INSERT INTO Chat (Id, UserId, Message, ChatRoomId) Values($Id, $UserId, $Message, $ChatRoomId) WHERE Id=$Id;";
+            return await ExecuteAsync(queryString, chat);
         }
 
-        public async Task<Chat> FetchChatHistory(int chatRoomid)
+        public async Task<List<ChatModel>> FetchChatHistory()
         {
+            var queryString = $"SELECT * FROM Chat";
 
+            return await QueryAsync(queryString, null);
         }
 
-        public async Task<Chat> FetchChat(int chatId)
+        public async Task<ChatModel> FetchChat(int chatId)
         {
+            var queryString = $"SELECT * FROM Chat WHERE Id=$Id;";
 
+            return await QuerySingleAsync(queryString, new {Id=chatId});
+        }
+
+        public async Task<ChatModel> UpdateChat(ChatModel chat)
+        {
+            var queryString = $"UPDATE Chat (Id, UserId, Message, ChatRoomId) Values($Id, $UserId, $Message, $ChatRoomId) WHERE Id=$Id";
+
+            return await QuerySingleAsync(queryString, chat);
         }
     }
 }

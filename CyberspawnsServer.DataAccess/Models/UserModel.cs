@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CyberspawnsServer.DataAccess.Models
 {
-    public class User: BaseDbModel
+    public class UserModel: BaseDbModel
     {
         public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -10,8 +10,4 @@
     <PackageReference Include="Z.Dapper.Plus" Version="5.0.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CyberspawnsServer.DataAccess\CyberspawnsServer.DataAccess.csproj" />
-  </ItemGroup>
-
 </Project>

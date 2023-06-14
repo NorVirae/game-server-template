@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CyberspawnsServer.Core\CyberspawnsServer.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>..\BouncyCastle.Crypto.dll</HintPath>
     </Reference>

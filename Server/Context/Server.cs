@@ -51,6 +51,7 @@ namespace Server
         {
             AppThread.Schedule(() =>
             {
+                Logger.LogInfo("My Guy Connected Successfully");
                 Client connectedClient = new Client(client, networkManager);
                 networkManager.OnClientConnected(connectedClient);
             });

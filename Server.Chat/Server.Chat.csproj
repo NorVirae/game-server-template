@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ably.io" Version="1.2.11" />
     <PackageReference Include="Z.Dapper.Plus" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Server.DataAccess\Server.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

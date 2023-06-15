@@ -19,4 +19,12 @@
     <Folder Include="Logic\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ably.io" Version="1.2.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Server.Core\Server.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -72,7 +72,6 @@ namespace Server
 
         public void HandleIncommingData(Client client, Datagram datagram)
         {
-            Console.WriteLine("Incomming data " + SerializationHelper.Serialize(datagram));
             EventType type = (EventType)Convert.ToInt32(datagram.type);
             switch (type)
             {
@@ -80,7 +79,9 @@ namespace Server
                 case EventType.Ping:
                     client.lastPongTime = Core.Timer.TotalsecondsSinceStart;
                     break;
+
                 case EventType.Message:
+                    Logger.Log("Message Was Received!");
                     MessageHandler.Instance.HandleMessageAsync(client, datagram);
                     break;
             }

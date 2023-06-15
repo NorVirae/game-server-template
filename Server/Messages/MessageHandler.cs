@@ -43,6 +43,7 @@ namespace Server.Messages
         private void RegisterMessages()
         {
             _handlers.Add(MessageEvents.LOGIN_MESSAGE, HandleLoginMessage);
+            _handlers.Add(MessageEvents.CHAT_MESSAGE, HandleChatMessage);
 
         }
 
@@ -64,11 +65,13 @@ namespace Server.Messages
             {
                 var token = source.Token;
                 MessageProxy? proxy = JsonConvert.DeserializeObject<MessageProxy>(datagram.body.ToString());
+                Console.WriteLine(proxy.messageID + " Message ID" + "MESSAGE BODY " + datagram.body.ToString());
 
                 if (_handlers.TryGetValue(proxy.messageID, out HandleAsync handle))
                 {
                     try
                     {
+                        Console.WriteLine(handle);
                         await handle(client, proxy.messageBody, datagram.clientCallabckId, token);
                     }
                     catch (Exception)
@@ -91,6 +94,16 @@ namespace Server.Messages
             Console.WriteLine(loginMessage.userId + " " + loginMessage.playfabId + " " + id);
 
             NetworkManager.PublishMessage(client,MessageEvents.LOGIN_MESSAGE, loginMessage, id);
+
+            await Task.FromResult<object>(null);
+        }
+
+        public async Task HandleChatMessage(Client client, object messageBody, object id, CancellationToken cancellationToken)
+        {
+            ChatMessage chatMessage = SerializationHelper.Deserialize<ChatMessage>(messageBody.ToString());
+            Console.WriteLine(chatMessage.channelID + " " + chatMessage.messageBody + " " + id);
+
+            NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
 
             await Task.FromResult<object>(null);
         }

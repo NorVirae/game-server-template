@@ -9,9 +9,11 @@ namespace Server.DataAccess.Models
 {
     public class ChatModel: BaseDbModel
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        public string Message { get; set; }
-        public Guid ChatRoomId { get; set; }
+        public Guid id { get; set; }
+        public Guid senderid { get; set; }
+        public Guid receiverid { get; set; }
+        public string msg { get; set; }
+        public Guid chatroomid { get; set; }
+        
     }
 }

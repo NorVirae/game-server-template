@@ -15,9 +15,11 @@ namespace Server
 {
     public class NetworkManager
     {
-        public NetworkManager() {
+        private readonly string _dbConfigString;
+        public NetworkManager(string dbConfigString) {
             connectedClientsWithEndpoint = new ConcurrentDictionary<EndPoint, Client>();
             messageHandler = new MessageHandler(this);
+            _dbConfigString = dbConfigString;
         }
 
         private Server server;
@@ -31,6 +33,11 @@ namespace Server
             server = new Server(this);
             server.StartServer(ip, port);
 
+        }
+
+        public string FetchConnectionString()
+        {
+            return _dbConfigString;
         }
 
         public void Update()

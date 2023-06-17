@@ -5,10 +5,10 @@ namespace Server
 {
     public class ServerManager : Singliton<ServerManager>
     {
-        public ServerManager() { 
+        public ServerManager(string dbConnString) { 
             Instance= this;
             appThread = new AppThread();
-            networkManager = new NetworkManager();
+            networkManager = new NetworkManager(dbConnString);
             Core.Timer.Init();
             appThread.Start(Update);
             logger = new Logger();
@@ -33,6 +33,11 @@ namespace Server
         public void NetLogCallback(string message, DebugLevel level)
         {
             Console.WriteLine(message);
+        }
+
+        public void SetconnectionString(string connectionString)
+        {
+
         }
     }
 }

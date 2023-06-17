@@ -21,6 +21,8 @@ namespace Server.DataAccess
         public BaseRepository(string connetionstring, Log log)
         {
             this.connectionFactory = new ConnectionFactory(connetionstring);
+            Console.WriteLine("BASE REPO " + this.connectionFactory);
+
             table = DataUtils.GetTableName<T>();
             logger += log;
         }

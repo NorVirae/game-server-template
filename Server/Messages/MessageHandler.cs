@@ -6,6 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Server.Core;
 using Newtonsoft.Json;
+using Server.Chat;
+using Microsoft.Extensions.Configuration;
+using Server.DataAccess;
+using Server.DataAccess.Models;
 
 namespace Server.Messages
 {
@@ -23,7 +27,8 @@ namespace Server.Messages
         public MessageProxy messageProxy;
         public NetworkManager networkManager;
         private readonly Dictionary<short, HandleAsync> _handlers;
-
+        private Chats chat;
+        Log logger;
 
         public MessageHandler(NetworkManager manager)
         {
@@ -100,12 +105,21 @@ namespace Server.Messages
 
         public async Task HandleChatMessage(Client client, object messageBody, object id, CancellationToken cancellationToken)
         {
-            ChatMessage chatMessage = SerializationHelper.Deserialize<ChatMessage>(messageBody.ToString());
-            Console.WriteLine(chatMessage.channelID + " " + chatMessage.messageBody + " " + id);
+            try
+            {
+                ChatMessage chatMessage = SerializationHelper.Deserialize<ChatMessage>(messageBody.ToString());
+                Console.WriteLine(chatMessage.channelID + " " + chatMessage.messageBody + " " + id);
 
-            NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
-
-            await Task.FromResult<object>(null);
+                chat = new Chats(networkManager.FetchConnectionString(), logger);
+                Console.WriteLine(Guid.NewGuid() + " WARIS");
+                await chat.StoreChat(new ChatModel{ id = Guid.NewGuid(), senderid = Guid.NewGuid(), receiverid = Guid.NewGuid(), msg = "Hola", chatroomid = Guid.NewGuid() });
+                NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
+                await Task.FromResult<object>(null);
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                await Task.FromResult<object>(null);
+            }
         }
 
     }

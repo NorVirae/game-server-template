@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using IO.Ably;
 
 namespace Server
 {
@@ -122,6 +123,7 @@ namespace Server
 
         public static void PublishMessage(Client client, short messageId, Message message, object clientCallbackId)
         {
+            Console.WriteLine(message.ToString() + " MESSAGE");
             Datagram gram = new(EventType.Message, MessageHandler.SerializeMessage(messageId, message), clientCallbackId);
             client.SendDataGram(gram);
         }

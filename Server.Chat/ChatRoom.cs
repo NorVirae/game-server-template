@@ -14,7 +14,7 @@ namespace Server.Chat
 
             public async Task<int> StoreChatRoom(ChatRoomModel chatRoom)
             {
-                var queryString = $"INSERT INTO chatroom (id, title, topic, description, creatorid) Values(@id, @title, @topic, @description, @creatorid);";
+                var queryString = $"INSERT INTO chatroom (id, title, creatorid) Values(@id, @title, @creatorid);";
 
                 int result = await ExecuteAsync(queryString, chatRoom);
                 Console.WriteLine("RESULT " + result);
@@ -28,7 +28,7 @@ namespace Server.Chat
                 return await QueryAsync(queryString, new {userid});
             }
 
-            public async Task<ChatRoomModel> FetchChatRoom(int chatRoomId)
+            public async Task<ChatRoomModel> FetchChatRoom(Guid chatRoomId)
             {
                 var queryString = $"SELECT * FROM chatroom WHERE id=@Id;";
 

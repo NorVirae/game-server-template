@@ -17,7 +17,7 @@ namespace Server.Chat
 
         public async Task<int> StoreUser(UserModel chat)
         {
-            var queryString = $"INSERT INTO user (id, userplayfabid, userid) Values(@id, @userplayfabid, @userid);";
+            var queryString = $"INSERT INTO users (id, playfabuserid, playfabid) Values(@id, @playfabuserid, @playfabid);";
 
             int result = await ExecuteAsync(queryString, chat);
             return result;
@@ -25,21 +25,22 @@ namespace Server.Chat
 
         public async Task<List<UserModel>> FetchUsers()
         {
-            var queryString = $"SELECT * FROM user";
+            var queryString = $"SELECT * FROM users";
 
             return await QueryAsync(queryString, null);
         }
 
         public async Task<UserModel> FetchUser(string userid)
         {
-            var queryString = $"SELECT * FROM user WHERE id=@userid;";
+            Console.WriteLine(userid + " User ID");
+            var queryString = $"SELECT * FROM users WHERE playfabuserid=@Id OR playfabid=@Id;";
 
             return await QuerySingleAsync(queryString, new { Id = userid });
         }
 
         public async Task<int> UpdateUser(UserModel chat)
         {
-            var queryString = $"UPDATE user (id, userplayfabid, userid) Values(@id, @userplayfabid, @userid) WHERE id=@id";
+            var queryString = $"UPDATE users (id, userplayfabid, userid) Values(@id, @userplayfabid, @userid) WHERE id=@id";
 
             return await ExecuteAsync(queryString, chat);
 
@@ -47,7 +48,7 @@ namespace Server.Chat
 
         public async Task<int> DeleteUser(int userid)
         {
-            var queryString = $"DELETE FROM user WHERE id=@userid";
+            var queryString = $"DELETE FROM users WHERE id=@userid";
 
             return await ExecuteAsync(queryString, new { id = userid });
 

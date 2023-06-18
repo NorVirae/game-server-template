@@ -50,6 +50,8 @@ namespace Server.Messages
             _handlers.Add(MessageEvents.LOGIN_MESSAGE, HandleLoginMessage);
             _handlers.Add(MessageEvents.CHAT_MESSAGE, HandleChatMessage);
             _handlers.Add(MessageEvents.FETCH_CHATS_MESSAGES, HandleFetchChatMessage);
+            _handlers.Add(MessageEvents.FETCH_CHAT_ROOMS, HandlePrivateChatRoom);
+
 
 
         }
@@ -72,13 +74,11 @@ namespace Server.Messages
             {
                 var token = source.Token;
                 MessageProxy? proxy = JsonConvert.DeserializeObject<MessageProxy>(datagram.body.ToString());
-                Console.WriteLine(proxy.messageID + " Message ID" + "MESSAGE BODY " + datagram.body.ToString());
 
                 if (_handlers.TryGetValue(proxy.messageID, out HandleAsync handle))
                 {
                     try
                     {
-                        Console.WriteLine(handle);
                         await handle(client, proxy.messageBody, datagram.clientCallabckId, token);
                     }
                     catch (Exception)
@@ -103,7 +103,9 @@ namespace Server.Messages
             UserModel userData = await  user.FetchUser(loginMessage.userId);
             if (userData == null)
             {
-               await user.StoreUser(new UserModel { id = Guid.NewGuid(), playfabid = loginMessage.playfabId, playfabuserid = loginMessage.userId});
+                Console.WriteLine(userData + " USERDATA " + loginMessage.playfabId + "  " + loginMessage.userId);
+              int result = await user.StoreUser(new UserModel { id = Guid.NewGuid(), playfabid = loginMessage.playfabId, playfabuserid = loginMessage.userId});
+                Console.WriteLine($"Is successful! {result}");
             }
             NetworkManager.PublishMessage(client,MessageEvents.LOGIN_MESSAGE, loginMessage, id);
 
@@ -127,16 +129,43 @@ namespace Server.Messages
             }
         }
 
-        public async Task HandleCreatePrivateChatRoom(Client client, object messageBody, object id, CancellationToken cancellationToken)
+        public async Task HandlePrivateChatRoom(Client client, object messageBody, object id, CancellationToken cancellationToken)
         {
             try
             {
-                ChatRoomMessage chatMessage = SerializationHelper.Deserialize<ChatRoomMessage>(messageBody.ToString());
-
+                ChatRoomMessage chatRoomMessage = SerializationHelper.Deserialize<ChatRoomMessage>(messageBody.ToString());
+                List<ChatModel> chatMessages = new List<ChatModel>();
                 ChatRoom chatRoom = new ChatRoom(networkManager.FetchConnectionString(), logger);
-                await chatRoom.StoreChatRoom(new ChatRoomModel { id = chatMessage.messageBody.id, senderid = chatMessage.messageBody.senderid, receiverid = chatMessage.messageBody.receiverid, msg = chatMessage.messageBody.msg, chatroomid = chatMessage.messageBody.chatroomid });
-                NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
+                User user = new User(networkManager.FetchConnectionString(), logger);
+                Chats chat = new Chats(networkManager.FetchConnectionString(), logger);
+
+                UserModel userData = await user.FetchUser(chatRoomMessage.messageBody.creatorid);
+                Console.WriteLine(chatRoomMessage.messageBody.creatorid.ToString() + " CREATORID");
+                ChatRoomModel chatRoomData = await chatRoom.FetchChatRoom(chatRoomMessage.messageBody.id);
+                if (chatRoomData != null)
+                {
+                    chatMessages = await chat.FetchChatHistory(chatRoomData.id);
+
+                }
+
+                Guid chatRoomId = Guid.NewGuid();
+
+                if(chatRoomData == null)
+                {
+                    Console.WriteLine(userData + " UserData");
+
+                   int result = await chatRoom.StoreChatRoom(new ChatRoomModel { id = chatRoomId, title = chatRoomMessage.messageBody.title, creatorid = userData.playfabuserid });
+                    chatRoomData = await chatRoom.FetchChatRoom(chatRoomId);
+                    Console.WriteLine(chatRoomData + " CHATROOMDATA  RESULT: " + result + "  ChatroomId " + chatRoomMessage.messageBody.id);
+                }
+                chatRoomMessage.channelID = chatRoomData.id.ToString();
+                chatRoomMessage.chats = chatMessages;
+                 
+                Console.WriteLine(chatRoomMessage.channelID + " CHANNEL ID  CALLBACKID" + id);
+
+                NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatRoomMessage, id);
                 await Task.FromResult<object>(null);
+
             }
             catch (Exception ex)
             {
@@ -152,7 +181,7 @@ namespace Server.Messages
                 ChatMessage chatMessage = SerializationHelper.Deserialize<ChatMessage>(messageBody.ToString());
 
                 chat = new Chats(networkManager.FetchConnectionString(), logger);
-                await chat.FetchChatHistory(chatMessage.messageBody.chatroomid);
+                List<ChatModel> chatMessages = await chat.FetchChatHistory(chatMessage.messageBody.chatroomid);
                 NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
                 await Task.FromResult<object>(null);
             }

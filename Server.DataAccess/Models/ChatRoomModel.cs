@@ -13,7 +13,7 @@ namespace Server.DataAccess.Models
         public string title { get; set; }
         public string topic { get; set; }
         public string description { get; set; }
-        public Guid creatorid { get; set; }
+        public string creatorid { get; set; }
 
     }
 }

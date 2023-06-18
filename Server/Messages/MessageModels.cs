@@ -32,7 +32,7 @@ namespace Server
     public class ChatRoomMessage : Message
     {
         public string channelID;
-        public string clientID;
+        public List<ChatModel> chats;
         public string eventName;
         public ChatRoomModel messageBody;
     }

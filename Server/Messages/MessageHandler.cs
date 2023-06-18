@@ -117,9 +117,14 @@ namespace Server.Messages
             try
             {
                 ChatMessage chatMessage = SerializationHelper.Deserialize<ChatMessage>(messageBody.ToString());
+                User user = new User(networkManager.FetchConnectionString(), logger);
+
+                UserModel senderUserData = await user.FetchUser(chatMessage.messageBody.senderid);
+                UserModel receiverUserData = await user.FetchUser(chatMessage.messageBody.receiverid);
+
 
                 chat = new Chats(networkManager.FetchConnectionString(), logger);
-                await chat.StoreChat(new ChatModel{ id = chatMessage.messageBody.id, senderid = chatMessage.messageBody.senderid, receiverid = chatMessage.messageBody.receiverid, msg = chatMessage.messageBody.msg, chatroomid = chatMessage.messageBody.chatroomid });
+                await chat.StoreChat(new ChatModel{ id = chatMessage.messageBody.id, senderid = senderUserData.id, receiverid = receiverUserData.id, msg = chatMessage.messageBody.msg, chatroomid = chatMessage.messageBody.chatroomid });
                 NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
                 await Task.FromResult<object>(null);
             }catch(Exception ex)

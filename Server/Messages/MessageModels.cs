@@ -26,7 +26,7 @@ namespace Server
         public string channelID;
         public string clientID;
         public string eventName;
-        public ChatModel messageBody;
+        public ChatModelInput messageBody;
     }
 
     public class ChatRoomMessage : Message

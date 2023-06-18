@@ -16,4 +16,13 @@ namespace Server.DataAccess.Models
         public Guid chatroomid { get; set; }
         
     }
+
+    public class ChatModelInput: BaseDbModel
+    {
+        public Guid id { get; set; }
+        public string senderid { get; set; }
+        public string receiverid { get; set; }
+        public string msg { get; set; }
+        public Guid chatroomid { get; set; }
+    }
 }

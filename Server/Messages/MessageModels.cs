@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IO.Ably.Realtime;
+using Server.DataAccess.Models;
 
 namespace Server
 {
@@ -25,6 +26,14 @@ namespace Server
         public string channelID;
         public string clientID;
         public string eventName;
-        public object messageBody;
+        public ChatModel messageBody;
+    }
+
+    public class ChatRoomMessage : Message
+    {
+        public string channelID;
+        public string clientID;
+        public string eventName;
+        public ChatRoomModel messageBody;
     }
 }

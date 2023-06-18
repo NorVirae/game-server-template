@@ -49,6 +49,8 @@ namespace Server.Messages
         {
             _handlers.Add(MessageEvents.LOGIN_MESSAGE, HandleLoginMessage);
             _handlers.Add(MessageEvents.CHAT_MESSAGE, HandleChatMessage);
+            _handlers.Add(MessageEvents.FETCH_CHATS_MESSAGES, HandleFetchChatMessage);
+
 
         }
 
@@ -96,8 +98,13 @@ namespace Server.Messages
         {
 
             LoginMessage loginMessage = SerializationHelper.Deserialize<LoginMessage>(messageBody.ToString());
-            Console.WriteLine(loginMessage.userId + " " + loginMessage.playfabId + " " + id);
+            User user = new User(networkManager.FetchConnectionString(), logger);
 
+            UserModel userData = await  user.FetchUser(loginMessage.userId);
+            if (userData == null)
+            {
+               await user.StoreUser(new UserModel { id = Guid.NewGuid(), playfabid = loginMessage.playfabId, playfabuserid = loginMessage.userId});
+            }
             NetworkManager.PublishMessage(client,MessageEvents.LOGIN_MESSAGE, loginMessage, id);
 
             await Task.FromResult<object>(null);
@@ -108,11 +115,9 @@ namespace Server.Messages
             try
             {
                 ChatMessage chatMessage = SerializationHelper.Deserialize<ChatMessage>(messageBody.ToString());
-                Console.WriteLine(chatMessage.channelID + " " + chatMessage.messageBody + " " + id);
 
                 chat = new Chats(networkManager.FetchConnectionString(), logger);
-                Console.WriteLine(Guid.NewGuid() + " WARIS");
-                await chat.StoreChat(new ChatModel{ id = Guid.NewGuid(), senderid = Guid.NewGuid(), receiverid = Guid.NewGuid(), msg = "Hola", chatroomid = Guid.NewGuid() });
+                await chat.StoreChat(new ChatModel{ id = chatMessage.messageBody.id, senderid = chatMessage.messageBody.senderid, receiverid = chatMessage.messageBody.receiverid, msg = chatMessage.messageBody.msg, chatroomid = chatMessage.messageBody.chatroomid });
                 NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
                 await Task.FromResult<object>(null);
             }catch(Exception ex)
@@ -121,6 +126,44 @@ namespace Server.Messages
                 await Task.FromResult<object>(null);
             }
         }
+
+        public async Task HandleCreatePrivateChatRoom(Client client, object messageBody, object id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                ChatRoomMessage chatMessage = SerializationHelper.Deserialize<ChatRoomMessage>(messageBody.ToString());
+
+                ChatRoom chatRoom = new ChatRoom(networkManager.FetchConnectionString(), logger);
+                await chatRoom.StoreChatRoom(new ChatRoomModel { id = chatMessage.messageBody.id, senderid = chatMessage.messageBody.senderid, receiverid = chatMessage.messageBody.receiverid, msg = chatMessage.messageBody.msg, chatroomid = chatMessage.messageBody.chatroomid });
+                NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
+                await Task.FromResult<object>(null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                await Task.FromResult<object>(null);
+            }
+        }
+
+        public async Task HandleFetchChatMessage(Client client, object messageBody, object id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                ChatMessage chatMessage = SerializationHelper.Deserialize<ChatMessage>(messageBody.ToString());
+
+                chat = new Chats(networkManager.FetchConnectionString(), logger);
+                await chat.FetchChatHistory(chatMessage.messageBody.chatroomid);
+                NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
+                await Task.FromResult<object>(null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                await Task.FromResult<object>(null);
+            }
+        }
+
+        
 
     }
 }

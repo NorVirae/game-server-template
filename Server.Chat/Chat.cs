@@ -10,10 +10,7 @@ namespace Server.Chat
 {
     public class Chats : BaseRepository<ChatModel>
     {
-        public Chats(string connetionstring, Log log) : base(connetionstring, log)
-        {
-
-        }
+        public Chats(string connetionstring, Log log) : base(connetionstring, log){}
 
         public async Task<int> StoreChat(ChatModel chat)
         {
@@ -25,23 +22,23 @@ namespace Server.Chat
             return result;
         }
 
-        public async Task<List<ChatModel>> FetchChatHistory()
+        public async Task<List<ChatModel>> FetchChatHistory(Guid chatrmid)
         {
-            var queryString = $"SELECT * FROM Chat";
+            var queryString = $"SELECT * FROM chat WHERE chatroomid=@chatroomid";
 
-            return await QueryAsync(queryString, null);
+            return await QueryAsync(queryString, new {chatroomid = chatrmid});
         }
 
         public async Task<ChatModel> FetchChat(int chatId)
         {
-            var queryString = $"SELECT * FROM Chat WHERE Id=@Id;";
+            var queryString = $"SELECT * FROM chat WHERE id=@id;";
 
             return await QuerySingleAsync(queryString, new {Id=chatId});
         }
 
         public async Task<int> UpdateChat(ChatModel chat)
         {
-            var queryString = $"UPDATE Chat (Id, UserId, Message, ChatRoomId) Values(@Id, @UserId, @Message, @ChatRoomId) WHERE Id=@Id";
+            var queryString = $"UPDATE chat (id, userid, msg, chatroomid) Values(@id, @userid, @msg, @chatroomid) WHERE id=@id";
 
             return await ExecuteAsync(queryString, chat);
 
@@ -49,7 +46,7 @@ namespace Server.Chat
 
         public async Task<int> DeleteChat(int id)
         {
-            var queryString = $"DELETE FROM Chat WHERE Id=@Id";
+            var queryString = $"DELETE FROM chat WHERE id=@id";
 
             return await ExecuteAsync(queryString, new {id = id});
 

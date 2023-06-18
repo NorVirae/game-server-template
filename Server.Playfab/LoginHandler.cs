@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Server.Playfab
 {
-    internal class LoginHandler
+    public class LoginHandler
     {
+        public void VerifyTokenPlayFabIdToken()
+        {
 
+        }
     }
 }

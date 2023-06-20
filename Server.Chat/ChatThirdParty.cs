@@ -66,7 +66,7 @@ namespace Server.Chat
             ConnectToAbly();
         }
 
-        private void ConnectToAbly()
+        public void ConnectToAbly()
         {
             if (_isConnected)
             {
@@ -78,7 +78,7 @@ namespace Server.Chat
             }
         }
 
-        private void SucribeToChatRoom(string channelOrChatRoomId, string eventName)
+        public void SucribeToChatRoom(string channelOrChatRoomId, string eventName)
         {
             var channelName = channelOrChatRoomId;
             _ably.Channels.Get(channelName).Subscribe(eventName, message =>
@@ -88,13 +88,13 @@ namespace Server.Chat
             Console.WriteLine($"Successfully subscribed to channel <b>{channelName}</b>");
         }
 
-        private async void PublishMessageToChatRoom(string messagePayload, string channelOrChatRoomId, string eventName)
+        public async void PublishMessageToChatRoom(string messagePayload, string channelOrChatRoomId, string eventName)
         {
             var channelName = channelOrChatRoomId;
             var payload = messagePayload;
             // async-await makes sure call is executed in the background and then result is posted on UnitySynchronizationContext/Main thread
             var result = await _ably.Channels.Get(channelName).PublishAsync(eventName, payload);
-            Console.WriteLine("Send Message");
+            Console.WriteLine("Message sent Message");
         }
     }
 }

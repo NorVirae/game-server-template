@@ -125,6 +125,19 @@ namespace Server.Messages
 
                 chat = new Chats(networkManager.FetchConnectionString(), logger);
                 await chat.StoreChat(new ChatModel{ id = chatMessage.messageBody.id, senderid = senderUserData.id, receiverid = receiverUserData.id, msg = chatMessage.messageBody.msg, chatroomid = chatMessage.messageBody.chatroomid });
+
+                //send message to ably chat specified specified channel: channel name is chatroom id
+                ChatThirdParty chatThirdParty = new ChatThirdParty();
+                chatThirdParty.ConnectToAbly();
+
+                chatThirdParty.SucribeToChatRoom(chatMessage.messageBody.chatroomid.ToString(), "chat:message");
+                chatThirdParty.PublishMessageToChatRoom(chatMessage.messageBody.msg, chatMessage.messageBody.chatroomid.ToString(), "chat:message");
+
+                //close connection
+                chatThirdParty.ConnectToAbly();
+
+
+
                 NetworkManager.PublishMessage(client, MessageEvents.CHAT_MESSAGE, chatMessage, id);
                 await Task.FromResult<object>(null);
             }catch(Exception ex)
@@ -196,8 +209,5 @@ namespace Server.Messages
                 await Task.FromResult<object>(null);
             }
         }
-
-        
-
     }
 }

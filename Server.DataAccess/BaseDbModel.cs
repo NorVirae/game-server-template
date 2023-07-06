@@ -8,8 +8,8 @@ namespace Server.DataAccess
 {
     public class BaseDbModel
     {
-        public double CreatedAt { get; set; }
-        public double UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
 

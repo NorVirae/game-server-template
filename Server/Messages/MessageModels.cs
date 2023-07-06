@@ -17,23 +17,42 @@ namespace Server
 
     public class LoginMessage : Message
     {
-        public string userId;
-        public string playfabId;
+        public string UserId;
+        public string PlayfabId;
     }
 
     public class ChatMessage : Message
     {
-        public string channelID;
-        public string clientID;
-        public string eventName;
-        public ChatModelInput messageBody;
+        public Guid Id { get; set; }
+        public string SenderPlayfabId { get; set; }
+        public string ReceiverPlayfabId { get; set; }
+        public string Content { get; set; }
+        public Guid ChatRoomId { get; set; }
+        public string MediaUrl { get; set; }
+    }
+
+    public class PlayfabMessage : Message
+    {
+        public string playfabId;
+        public string message;
+    }
+
+    public class FriendRequestMessage: Message
+    {
+        public string PlayfabId { get; set; }
+        public string FriendName { get; set; }
+        public string FriendAvatarUrl { get; set; }
+        public FriendStatus Status { get; set; }
+        public bool IsSender { get; set; }
     }
 
     public class ChatRoomMessage : Message
     {
-        public string channelID;
-        public List<ChatModel> chats;
-        public string eventName;
-        public ChatRoomModel messageBody;
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string SenderPlayfabId { get; set; }
+        public string ReceiverPlayfabId { get; set; }
+
+        public List<ChatModel> Chats { get; set; }
     }
 }

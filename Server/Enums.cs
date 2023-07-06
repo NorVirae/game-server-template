@@ -20,7 +20,8 @@ namespace Server
         Pong,
         Login,
         Message,
-        Disconnection
+        Disconnection,
+        RPC
     }
 
     public enum SystemMessageType

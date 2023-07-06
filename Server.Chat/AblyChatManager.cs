@@ -12,16 +12,24 @@ using System.Threading.Tasks;
 namespace Server.Chat
 {
     //This implementations is for [PRIVATE_MODE](Private Chat Mode) [PUBLIC_MODE](Public Chat Mode) is communicated over the client ably connection.
-    public class ChatThirdParty
+    public class AblyChatManager
     {
-        private string _apiKey = "_vRLkA.dtMWdw:vxlwHwwbRD6t_uP8Qu0b5ouI8xd63937moEWiuQhxSo";
+        private static string _apiKey = "_vRLkA.dtMWdw:vxlwHwwbRD6t_uP8Qu0b5ouI8xd63937moEWiuQhxSo";
 
 
         private AblyRealtime _ably;
         private bool _isConnected;
+        private ClientOptions _clientOptions = new ClientOptions
+            {
+                Key = _apiKey,
+                AutomaticNetworkStateMonitoring = false,
+                AutoConnect = false,
+                CustomContext = SynchronizationContext.Current
+            };
 
-        public ChatThirdParty() { 
-            _ably = new AblyRealtime(new ClientOptions{ Key = _apiKey });
+
+    public AblyChatManager() { 
+            _ably = new AblyRealtime(_clientOptions);
             _ably.Connection.On(args =>
             {
                 switch (args.Current)
@@ -61,20 +69,21 @@ namespace Server.Chat
             });
         }
 
-        public void InnitializeAbly()
+        public void ConnectToAbly(string playfabClientId)
         {
-            ConnectToAbly();
+            _clientOptions.ClientId = playfabClientId;
+            if (!_isConnected)
+            {
+                _ably.Connect();
+            }
+            
         }
 
-        public void ConnectToAbly()
+        public void DisConnectFromAbly()
         {
             if (_isConnected)
             {
                 _ably.Close();
-            }
-            else
-            {
-                _ably.Connect();
             }
         }
 
@@ -85,7 +94,6 @@ namespace Server.Chat
             {
                 Console.WriteLine($"Received message <b>{message.Data}</b> from channel <b>{channelName}</b>");
             });
-            Console.WriteLine($"Successfully subscribed to channel <b>{channelName}</b>");
         }
 
         public async void PublishMessageToChatRoom(string messagePayload, string channelOrChatRoomId, string eventName)

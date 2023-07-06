@@ -1,9 +1,5 @@
 ﻿using Server.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Server
 {
@@ -14,4 +10,10 @@ namespace Server
             return SerializationHelper.Serialize(this);
         }
     }
+
+    public class MessageProxy
+    {
+        public short messageID;
+        public object messageBody;
+    } 
 }

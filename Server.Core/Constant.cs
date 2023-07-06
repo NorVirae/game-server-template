@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Server.Core
 {
-    internal class Constant
+    public static class Constants
     {
+        //playfab userdata keys
+        public const string ServerData = "ServerData";
+        public const string Friends = "Friends";
+        public const string SentRequestPending = "SentRequestPending";
 
     }
 }

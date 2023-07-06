@@ -16,18 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ably.io" Version="1.2.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Server.Chat\Server.Chat.csproj" />
     <ProjectReference Include="..\Server.Core\Server.Core.csproj" />
+    <ProjectReference Include="..\Server.DataAccess\Server.DataAccess.csproj" />
+    <ProjectReference Include="..\Server.Playfab\Server.Playfab.csproj" />
   </ItemGroup>
 
 </Project>

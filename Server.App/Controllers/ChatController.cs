@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Server.Controllers
+namespace Cyberspawns_Server.Controllers
 {
     public class ChatController : Controller
     {

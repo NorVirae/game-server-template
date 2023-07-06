@@ -21,8 +21,6 @@ namespace Server.DataAccess
         public BaseRepository(string connetionstring, Log log)
         {
             this.connectionFactory = new ConnectionFactory(connetionstring);
-            Console.WriteLine("BASE REPO " + this.connectionFactory);
-
             table = DataUtils.GetTableName<T>();
             logger += log;
         }
@@ -102,6 +100,7 @@ namespace Server.DataAccess
             catch (Exception ex)
             {
                 //Handle the exception
+                Console.WriteLine("Unable to execute " + ex.Message);
                 logger?.Invoke(ex);
                 return 0;
             }
@@ -306,6 +305,7 @@ namespace Server.DataAccess
             catch (Exception ex)
             {
                 logger?.Invoke(ex);
+                Console.WriteLine(ex.Message, "QUILA");
                 return default;
             }
         }

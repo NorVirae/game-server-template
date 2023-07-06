@@ -6,32 +6,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Chat
+namespace Server.DataAccess
 {
-    public class Chats : BaseRepository<ChatModel>
+    public class ChatRepository : BaseRepository<ChatModel>
     {
-        public Chats(string connetionstring, Log log) : base(connetionstring, log){}
+        public ChatRepository(IDataService dataService, Log log) : base(dataService.GetConnectionString(), log){}
 
         public async Task<int> StoreChat(ChatModel chat)
         {
-            var queryString = $"INSERT INTO chat (id, senderid, receiverid, msg, chatroomid) Values(@id, @senderid, @receiverid, @msg, @chatroomid);";
+            var queryString = $"INSERT INTO chats (\"Id\", \"SenderPlayfabId\", \"ReceiverPlayfabId\", \"Content\", \"ChatRoomId\", \"MediaUrl\", \"UpdatedAt\", \"CreatedAt\") Values(@Id, @SenderPlayfabId, @ReceiverPlayfabId, @Content, @ChatRoomId, @MediaUrl,  @UpdatedAt, @CreatedAt);";
 
             int result = await ExecuteAsync(queryString, chat);
-            Console.WriteLine(queryString + " RESULT " + chat.id + " id " + chat.senderid + " senderid " + chat.receiverid + " receiverid " + chat.chatroomid + " chatroomid " + chat.msg + " msg ");
-            Console.WriteLine("RESULT " + result);
             return result;
         }
 
         public async Task<List<ChatModel>> FetchChatHistory(Guid chatrmid)
         {
-            var queryString = $"SELECT * FROM chat WHERE chatroomid=@chatroomid";
+            var queryString = $"SELECT * FROM chats WHERE \"ChatRoomId\"=@ChatRoomId";
 
-            return await QueryAsync(queryString, new {chatroomid = chatrmid});
+            return await QueryAsync(queryString, new {ChatRoomId = chatrmid});
         }
 
         public async Task<ChatModel> FetchChat(int chatId)
         {
-            var queryString = $"SELECT * FROM chat WHERE id=@id;";
+            var queryString = $"SELECT * FROM chats WHERE Id=@id;";
 
             return await QuerySingleAsync(queryString, new {Id=chatId});
         }

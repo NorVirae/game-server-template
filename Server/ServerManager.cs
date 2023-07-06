@@ -1,14 +1,15 @@
 ﻿using Server.Core;
+using Server.DataAccess;
 using QNetLib;
 
 namespace Server
 {
     public class ServerManager : Singliton<ServerManager>
     {
-        public ServerManager(string dbConnString) { 
+        public ServerManager( IDataService dataService) { 
             Instance= this;
             appThread = new AppThread();
-            networkManager = new NetworkManager(dbConnString);
+            networkManager = new NetworkManager( dataService);
             Core.Timer.Init();
             appThread.Start(Update);
             logger = new Logger();
@@ -35,9 +36,5 @@ namespace Server
             Console.WriteLine(message);
         }
 
-        public void SetconnectionString(string connectionString)
-        {
-
-        }
     }
 }

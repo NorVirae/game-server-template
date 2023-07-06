@@ -13,4 +13,8 @@
     <PackageReference Include="Z.Dapper.Plus" Version="5.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Server.Core\Server.Core.csproj" />
+  </ItemGroup>
+
 </Project>

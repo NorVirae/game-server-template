@@ -4,17 +4,21 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Cyberspawns_Server</RootNamespace>
+    <RootNamespace>Server.App</RootNamespace>
     <UserSecretsId>c0910450-09e4-4eb4-b5ab-ec415cd44b65</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
+    <PackageReference Include="FluentMigrator.Runner.Postgres" Version="3.3.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Server.DataAccess\Server.DataAccess.csproj" />
+    <ProjectReference Include="..\Server.Migrations\Server.Migrations.csproj" />
     <ProjectReference Include="..\Server\Server.csproj" />
   </ItemGroup>
 

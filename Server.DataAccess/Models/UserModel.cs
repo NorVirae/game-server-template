@@ -7,14 +7,20 @@ using System.Threading.Tasks;
 
 namespace Server.DataAccess.Models
 {
-    public class UserModel: BaseDbModel
+    public class UserModel : BaseDbModel
     {
-        public Guid id { get; set; }
-        public string name { get; set; }
+        /// <summary>
+        /// Identification of the user in the whole system
+        /// </summary>
+        public string id { get; set; }
+        public string username { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public string playfabid { get; set; }
+        public string role { get; set; }
+        public bool isActive { get; set; }
+        public string image { get; set; }
         public string playfabuserid { get; set; }
+        public bool isVerified { get; set; }
 
     }
 }

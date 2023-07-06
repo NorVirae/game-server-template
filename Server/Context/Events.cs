@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 using Newtonsoft.Json;
 
 namespace Server
@@ -15,6 +13,7 @@ namespace Server
         [JsonIgnore]public EventType type => EventType.Login;
         public string token;
         public string userId;
+        public string playfabId;
     }
 
     public struct PongEvent : IEvent

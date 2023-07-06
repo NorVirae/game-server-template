@@ -9,11 +9,17 @@ namespace Server.DataAccess.Models
 {
     public class ChatRoomModel: BaseDbModel
     {
-        public Guid id { get; set; }
-        public string title { get; set; }
-        public string topic { get; set; }
-        public string description { get; set; }
-        public string creatorid { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+
+    }
+
+
+    public class ChatRoomMembersModel : BaseDbModel
+    {
+        public Guid Id { get; set; }
+        public Guid ChatRoomId { get; set; }
+        public string PlayerPlayfabId { get; set; }
 
     }
 }

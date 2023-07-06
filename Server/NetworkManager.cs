@@ -11,22 +11,32 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using IO.Ably;
+using Server.DataAccess;
 
 namespace Server
 {
     public class NetworkManager
     {
-        private readonly string _dbConfigString;
-        public NetworkManager(string dbConfigString) {
-            connectedClientsWithEndpoint = new ConcurrentDictionary<EndPoint, Client>();
-            messageHandler = new MessageHandler(this);
-            _dbConfigString = dbConfigString;
-        }
+        public static NetworkManager instance;
+        ServerConfig config;
+        public IDataService dataService;
+        public GameManager gameManager;
+        private static ConcurrentDictionary<Type, IActor> remoteActors = new ConcurrentDictionary<Type, IActor>();
 
         private Server server;
         public ConcurrentDictionary<EndPoint, Client> connectedClientsWithEndpoint;// Set of pending connections
         private static PongEvent pong = new();
         private MessageHandler messageHandler;
+
+        public NetworkManager(IDataService _dataService)
+        {
+            connectedClientsWithEndpoint = new ConcurrentDictionary<EndPoint, Client>();
+            gameManager = new GameManager();
+            dataService = _dataService;
+            instance = this;
+            messageHandler = new MessageHandler(this);
+            RegisterActors();
+        }
 
         public void StartServer(string ip, int port)
         {
@@ -34,11 +44,6 @@ namespace Server
             server = new Server(this);
             server.StartServer(ip, port);
 
-        }
-
-        public string FetchConnectionString()
-        {
-            return _dbConfigString;
         }
 
         public void Update()
@@ -87,24 +92,35 @@ namespace Server
                 case EventType.Ping:
                     client.lastPongTime = Core.Timer.TotalsecondsSinceStart;
                     break;
-
+                case EventType.RPC:
+                    //HandleRpc(@event);
+                    Logger.LogWarn("RPC is not supported yet");
+                    break;
                 case EventType.Message:
                     Logger.Log("Message Was Received!");
                     MessageHandler.Instance.HandleMessageAsync(client, datagram);
                     break;
             }
         }
+        private void RegisterActors()
+        {
+            remoteActors.TryAdd(typeof(GameManager), new GameManager()); //Register the Gamemanegr first to avoid Getactor Actor crash.
+     
+        }
 
-  
+
+
 
         public bool TryGetClient(EndPoint ID, out Client client)
         {
+            
             return connectedClientsWithEndpoint.TryGetValue(ID, out client);
         }
 
 
         public void OnClientConnected(Client client)
         {
+            Console.WriteLine(client.ClientEndpoint + " CLIENT END POINT");
             connectedClientsWithEndpoint.TryAdd(client.ClientEndpoint, client);
             client.sessionId = Guid.NewGuid().ToString();
             client.SendDataGram(new Datagram(EventType.Connection, client.sessionId));
@@ -123,12 +139,20 @@ namespace Server
 
         public static void PublishMessage(Client client, short messageId, Message message, object clientCallbackId)
         {
-            Console.WriteLine(message.ToString() + " MESSAGE");
             Datagram gram = new(EventType.Message, MessageHandler.SerializeMessage(messageId, message), clientCallbackId);
             client.SendDataGram(gram);
         }
 
-        public void Stop()
+        public void Configure(ServerConfig config)
+        {
+            this.config = config;
+            dataService = new DataService(config.connectionString);
+            //Run test
+
+            return;
+        }
+
+            public void Stop()
         {
             server.StopServer();
         }

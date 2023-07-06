@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Server.Controllers
+namespace Cyberspawns_Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

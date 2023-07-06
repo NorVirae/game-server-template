@@ -1,4 +1,4 @@
-namespace Server
+namespace Cyberspawns_Server
 {
     public class WeatherForecast
     {

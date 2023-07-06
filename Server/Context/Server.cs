@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿
 using System.Net;
-using System.Text;
 using Server.Core;
 using QNetLib;
 
@@ -39,7 +37,6 @@ namespace Server
 
         private void OnClientDisconnectedCallback(INetworkClient client, DisconnectionReasons disconnectionReasons)
         {
-            Console.WriteLine("Disconnected");
             AppThread.Schedule(() =>
             {
                 Console.WriteLine("Disconnected");
@@ -51,7 +48,7 @@ namespace Server
         {
             AppThread.Schedule(() =>
             {
-                Logger.LogInfo("My Guy Connected Successfully");
+                Logger.LogInfo("Client with Id {0} connected", client.NetID);
                 Client connectedClient = new Client(client, networkManager);
                 networkManager.OnClientConnected(connectedClient);
             });

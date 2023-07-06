@@ -1,4 +1,4 @@
-﻿using CyberspawnServer.Migrations.Migrations;
+﻿using Server.Migrations.Migrations;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CyberspawnServer.Migrations.Extensions
+namespace Server.Migrations.Extensions
 {
     public static class MigrationManager
     {

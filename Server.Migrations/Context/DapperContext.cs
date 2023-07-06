@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CyberspawnServer.Migrations.Context
+namespace Server.Migrations.Context
 {
     public class DapperContext
     {

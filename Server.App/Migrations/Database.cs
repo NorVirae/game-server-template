@@ -1,4 +1,4 @@
-﻿using CyberspawnServer.Migrations.Context;
+﻿using Server.Migrations.Context;
 using Dapper;
 using Npgsql;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CyberspawnServer.Migrations.Migrations
+namespace Server.Migrations.Migrations
 {
     public class Database
     {

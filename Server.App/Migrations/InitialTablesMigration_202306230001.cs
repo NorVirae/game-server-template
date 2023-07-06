@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CyberspawnServer.Migrations.Migrations
+namespace Server.Migrations.Migrations
 {
     [Migration(202306230001 )]
 

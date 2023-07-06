@@ -2,9 +2,9 @@ using Server;
 using FluentMigrator.Runner;
 using FluentMigrator.Postgres;
 using System.Reflection;
-using CyberspawnServer.Migrations.Extensions;
-using CyberspawnServer.Migrations.Context;
-using CyberspawnServer.Migrations.Migrations;
+using Server.Migrations.Extensions;
+using Server.Migrations.Context;
+using Server.Migrations.Migrations;
 using Server.DataAccess;
 var builder = WebApplication.CreateBuilder(args);
 

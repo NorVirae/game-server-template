@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Server.Context;
 using Server.DataAccess;
 using static System.Collections.Specialized.BitVector32;
@@ -20,7 +21,7 @@ namespace Server
             Instance = this;
 
             playerSessions = new ConcurrentDictionary<string, PlayerSession>();
-            PlayFab.PlayFabSettings.staticSettings.DeveloperSecretKey = "Z85MNMYUMKHD8HA66JTIFT1UKSOWGBUWETZABX6CJ7O7UWQDCM";
+            PlayFab.PlayFabSettings.staticSettings.DeveloperSecretKey = ServerManager.Instance.configuration.GetConnectionString("PLAYFAB_DEVELOPER_SECRET");
 
         }
 

@@ -1,13 +1,16 @@
 ﻿using Server.Core;
 using Server.DataAccess;
 using QNetLib;
+using System.Configuration.Internal;
+using Microsoft.Extensions.Configuration;
 
 namespace Server
 {
     public class ServerManager : Singliton<ServerManager>
     {
-        public ServerManager( IDataService dataService) { 
+        public ServerManager( IDataService dataService, IConfiguration config) { 
             Instance= this;
+            configuration = config;
             appThread = new AppThread();
             networkManager = new NetworkManager( dataService);
             Core.Timer.Init();
@@ -16,6 +19,7 @@ namespace Server
         }
 
         public NetworkManager networkManager;
+        public IConfiguration configuration;
         public Logger logger;
         public static AppThread appThread;
         

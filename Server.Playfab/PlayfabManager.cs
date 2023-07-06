@@ -15,8 +15,8 @@ namespace Server.Playfab
 
 
 
-        public PlayfabManager() {
-            PlayFabSettings.staticSettings.TitleId = "10F24";
+        public PlayfabManager(string titleId) {
+            PlayFabSettings.staticSettings.TitleId = titleId;
         }
         public Task<PlayFabResult<PlayFab.ClientModels.LoginResult>> LoginPlayfab(string customId)
         {

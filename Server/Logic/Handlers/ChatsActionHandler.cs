@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Server.Logic.Handlers
 {
@@ -24,7 +25,7 @@ namespace Server.Logic.Handlers
         public ChatsActionHandler(PlayerSession playerSession) : base(playerSession){
             user = new UserRepository(NetworkManager.instance.dataService);
             chat = new ChatRepository(NetworkManager.instance.dataService, logger);
-            ablyChatManager = new AblyChatManager();
+            ablyChatManager = new AblyChatManager(ServerManager.Instance.configuration.GetConnectionString("ABLY_API_KEY"));
             chatRoom = new ChatRoomRepository(NetworkManager.instance.dataService, logger);
             chatRoomMembers = new ChatRoomMembersRepository(NetworkManager.instance.dataService, logger);
 

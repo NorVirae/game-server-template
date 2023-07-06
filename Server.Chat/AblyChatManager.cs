@@ -1,6 +1,6 @@
 ﻿using IO.Ably;
 using IO.Ably.Realtime;
-
+using Server.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,21 +14,24 @@ namespace Server.Chat
     //This implementations is for [PRIVATE_MODE](Private Chat Mode) [PUBLIC_MODE](Public Chat Mode) is communicated over the client ably connection.
     public class AblyChatManager
     {
-        private static string _apiKey = "_vRLkA.dtMWdw:vxlwHwwbRD6t_uP8Qu0b5ouI8xd63937moEWiuQhxSo";
+        private static string _apiKey;
 
 
         private AblyRealtime _ably;
         private bool _isConnected;
-        private ClientOptions _clientOptions = new ClientOptions
+        private ClientOptions _clientOptions;
+
+
+    public AblyChatManager(string ablyApiKey) {
+            _apiKey = ablyApiKey;
+
+            _clientOptions = new ClientOptions
             {
                 Key = _apiKey,
                 AutomaticNetworkStateMonitoring = false,
                 AutoConnect = false,
                 CustomContext = SynchronizationContext.Current
             };
-
-
-    public AblyChatManager() { 
             _ably = new AblyRealtime(_clientOptions);
             _ably.Connection.On(args =>
             {

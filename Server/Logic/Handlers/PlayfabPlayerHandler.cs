@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Server.Logic.Handlers
 {
@@ -16,7 +17,7 @@ namespace Server.Logic.Handlers
         private PlayfabManager playfabManager;
         public PlayfabPlayerHandler(PlayerSession playerSession) : base(playerSession)
         {
-            playfabManager = new PlayfabManager();
+            playfabManager = new PlayfabManager(ServerManager.Instance.configuration.GetConnectionString("GAME_TITLE_ID"));
         }
 
         public void LoginPlayfab(string userId)

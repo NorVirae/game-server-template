@@ -35,7 +35,7 @@ builder.Services.AddLogging(c => c.AddFluentMigratorConsole())
 var app = builder.Build();
 
 
-var serverManager = new ServerManager( new DataService(Configuration.GetConnectionString("Default")));
+var serverManager = new ServerManager( new DataService(Configuration.GetConnectionString("Default")), Configuration);
 serverManager.networkManager.StartServer("127.0.0.1", 1137);
 
 // Configure the HTTP request pipeline.
